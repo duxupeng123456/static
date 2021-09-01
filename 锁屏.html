@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>锁屏.html</title>
+	<style>
+		div,body,em,p,h3,h4{
+			padding:0;
+			margin:0;
+		}
+		#box{
+			width: 400px;
+			height: 600px;
+			position:relative;
+			margin:0 auto;
+		}
+		h3,h4{
+			text-align:center;
+			line-height:150px;
+			font-size:28px;
+			color: #fff;
+		}
+		#box>div:nth-child(1) {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #f34;
+        }
+		#box>div:nth-child(2) {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #233;
+            display: none;
+        }
+		#box>div:nth-child(1) p {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            height: 50px;
+            line-height: 50px;
+            background: #234;
+            border: 1px solid #234;
+        }
+        #box>div:nth-child(1) p em {
+            position: absolute;
+            left: 0;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background: #fff;
+            text-align: center;
+        }
+         #box>div:nth-child(2) p {
+            line-height: 35px;
+            color: #fff;
+            font-size: 16px;
+            text-indent: 2em;
+            padding: 0 35px;
+            height: 450px;
+            overflow: hidden;
+        }
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div>
+			<h3>锁屏</h3>
+			<p><em>>></em></p>
+		</div>
+		<div>
+			<h4>界面</h4>
+			<p></p>
+		</div>
+	<script>
+        var bar = document.querySelector("#box>:nth-child(1)>p");
+        console.log(bar)
+        bar.onmousedown = function (ev) {
+            var down = ev.clientX;
+            var that = this;
+            bar.children[0].style.transition = "none";//transition过度效果
+
+            document.onmousemove = function (ev) {
+                var l = ev.clientX - down;
+                // console.log(l, bar.clientWidth - bar.children[0].offsetWidth);
+                if (l + bar.children[0].offsetWidth >= bar.clientWidth) {
+                    l = bar.clientWidth - bar.children[0].offsetWidth;
+                }
+                if (l < 0) l = 0;
+                bar.children[0].style.left = l + "px";
+            }
+        }
+        document.onmouseup = function (ev) {
+            document.onmousemove = null;
+            if (bar.children[0].offsetLeft + bar.children[0].offsetWidth >= bar.clientWidth) {
+                bar.parentNode.style.display = "none";
+                bar.parentNode.nextSibling.nextSibling.style.display = "block";
+            } else {
+                bar.children[0].style.left = 0 + "px";
+                bar.children[0].style.transition = "1s";
+            }
+        }
+    </script>
+</body>
+</html>
